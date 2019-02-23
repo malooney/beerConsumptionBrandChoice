@@ -1,0 +1,27 @@
+Package: beerConsumptionBrandChoice
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Matthew Aaron Looney
+Maintainer: Matthew Aaron Looney <matthew.looney@icloud.com>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Imports:
+    Rcpp (>= 0.12.17),
+    dplyr,
+    readr,
+    readxl,
+    stringr,
+    feather,
+    devtools,
+    foreign,
+    car,
+    survival,
+    AER
+LinkingTo: Rcpp
+RoxygenNote: 6.1.0
+Suggests: 
+    data.tree
