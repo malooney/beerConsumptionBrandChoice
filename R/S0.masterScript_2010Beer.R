@@ -50,7 +50,7 @@ S0.masterScript <- function(S1 = TRUE,
 
   if(S4 == TRUE){
 
-    S4.allBrands_2010analysis(brands= c("CHICAGO",
+    S4.allBrands_2010analysis(city= c("CHICAGO",
                                         "DALLAS, TX",
                                         "LOS ANGELES",
                                         "SPOKANE",
