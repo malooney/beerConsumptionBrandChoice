@@ -21,7 +21,7 @@ S1.beer_2010DataCleaning <- function(save_2010_main_data = 'all_formats',
                        "data_beerConsumptionBrandChoice"),
              showWarnings = FALSE)
 
-  path.pkg <- system.file(package = "beerEthnicityConsumptionBrandChoice")
+  path.pkg <- system.file(package = "beerConsumptionBrandChoice")
 
 # import raw IRI data ---------------------------------------------------------
 
