@@ -18,7 +18,7 @@ S2.construct_2010marketData <- function(input_fileType = 'feather',
     path.local <- getwd()
   } else{}
 
-  if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.", input_fileType, sep=""))) {
+  if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.", input_fileType, sep=""))) {
 
   stop("file does not exist in project directory. Run Script 1
              (S1.beer_2010DataCleaning) to generate the file called:
@@ -28,21 +28,21 @@ S2.construct_2010marketData <- function(input_fileType = 'feather',
 
     if(input_fileType == "csv"){
 
-    main_beer_drug_and_groc_4_2010 <- suppressWarnings(read_csv(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.csv", sep=""), col_types = cols(X1 = col_skip())))
+    main_beer_drug_and_groc_4_2010 <- suppressWarnings(read_csv(paste(path.local, "/data_beerConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.csv", sep=""), col_types = cols(X1 = col_skip())))
 
     } else if(input_fileType == "rds") {
 
-      main_beer_drug_and_groc_4_2010 <- readRDS(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.rds", sep=""))
+      main_beer_drug_and_groc_4_2010 <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.rds", sep=""))
 
     } else if(input_fileType == "feather") {
 
-      main_beer_drug_and_groc_4_2010 <- feather::read_feather(paste(path.local,"/data_beerEthnicityConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.feather", sep=""))
+      main_beer_drug_and_groc_4_2010 <- feather::read_feather(paste(path.local,"/data_beerConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.feather", sep=""))
 
     }
 
     if(marketNames[1,1] == 'all'){
 
-      marketNames <- readRDS(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D1.mrkNames_2010.rds", sep=""))
+      marketNames <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D1.mrkNames_2010.rds", sep=""))
 
     } else{
 
@@ -65,7 +65,7 @@ S2.construct_2010marketData <- function(input_fileType = 'feather',
     names(marketData_2010) <- marketNames[,1]
 
     saveRDS(marketData_2010,
-            paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D2.marketData_2010.rds", sep = ""))
+            paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep = ""))
 
   }
 

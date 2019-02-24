@@ -22,7 +22,7 @@ S4.allBrands_2010analysis <- function( city= c("CHICAGO",
     path.local <- getwd()
   } else{}
 
-  if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D3.explore_2010marketData.rds", sep=""))) {
+  if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D3.explore_2010marketData.rds", sep=""))) {
 
     stop("file does not exist in project directory. Run Script 3
          (S3.explore_2010marketData.R) to generate the file called:
@@ -30,7 +30,7 @@ S4.allBrands_2010analysis <- function( city= c("CHICAGO",
 
   } else{
 
-    dta <- readRDS(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D3.explore_2010marketData.rds", sep=""))
+    dta <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D3.explore_2010marketData.rds", sep=""))
 
   }
 
@@ -71,16 +71,16 @@ S4.allBrands_2010analysis <- function( city= c("CHICAGO",
     allBrands_2010analysis <- allBrands_2010analysis_main
 
     saveRDS(allBrands_2010analysis,
-            paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.allBrands_2010analysis.rds", sep = ""))
+            paste(path.local, "/data_beerConsumptionBrandChoice/D4.allBrands_2010analysis.rds", sep = ""))
 
     write.csv(allBrands_2010analysis[[3]],
-              paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.allBrandsAllMarkets.csv", sep = ""), row.names = F)
+              paste(path.local, "/data_beerConsumptionBrandChoice/D4.allBrandsAllMarkets.csv", sep = ""), row.names = F)
 
     write.csv(allBrands_2010analysis[[2]],
-            paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.brand_intersection_across_markets.csv", sep = ""), row.names = F)
+            paste(path.local, "/data_beerConsumptionBrandChoice/D4.brand_intersection_across_markets.csv", sep = ""), row.names = F)
 
     write.csv(allBrands_2010analysis[[1]],
-              paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.markets.csv", sep = ""), row.names = F)
+              paste(path.local, "/data_beerConsumptionBrandChoice/D4.markets.csv", sep = ""), row.names = F)
 
   }
 

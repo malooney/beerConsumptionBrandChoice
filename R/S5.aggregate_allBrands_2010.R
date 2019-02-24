@@ -20,7 +20,7 @@ S5.aggregate_allBrands_2010 <- function( Market = 'CHICAGO',
     path.local <- getwd()
   } else{}
 
-if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.markets.csv", sep=""))) {
+if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D4.markets.csv", sep=""))) {
 
   stop("file does not exist in project directory. Run Script 4
        (S4.explore_2010marketData.R) to generate the file called:
@@ -28,11 +28,11 @@ if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.
 
 } else{
 
-  D4.markets <- read.csv(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.markets.csv", sep=""))
+  D4.markets <- read.csv(paste(path.local, "/data_beerConsumptionBrandChoice/D4.markets.csv", sep=""))
 
 }
 
-if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.brand_intersection_across_markets.csv", sep=""))) {
+if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D4.brand_intersection_across_markets.csv", sep=""))) {
 
   stop("file does not exist in project directory. Run Script 4
        (S4.explore_2010marketData.R) to generate the file called:
@@ -40,12 +40,12 @@ if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.
 
 } else{
 
-  D4.brand_intersection_across_markets <- read.csv(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.brand_intersection_across_markets.csv", sep=""))
+  D4.brand_intersection_across_markets <- read.csv(paste(path.local, "/data_beerConsumptionBrandChoice/D4.brand_intersection_across_markets.csv", sep=""))
 
 }
 
 
-if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))) {
+if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))) {
 
   stop("file does not exist in project directory. Run Script 2
        (S2.construct_2010marketData.R) to generate the file called:
@@ -53,7 +53,7 @@ if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D2.
 
 } else{
 
-  D2.marketData_2010 <- readRDS(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))
+  D2.marketData_2010 <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))
 
 }
 
@@ -156,10 +156,10 @@ prcntConglomerateRep_gal <- (sum(selectConglomerates[, 4]) /
 if(figurePlot == T){
 
   dir.create(file.path(path.local,
-                       "data_beerEthnicityConsumptionBrandChoice/plots"),
+                       "data_beerConsumptionBrandChoice/plots"),
              showWarnings = FALSE)
 
-  pdf(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/plots/plot.aggregateData_", gsub('[ ,]', '', Market), ".pdf", sep=""), width=11, height = 8.5)
+  pdf(paste(path.local, "/data_beerConsumptionBrandChoice/plots/plot.aggregateData_", gsub('[ ,]', '', Market), ".pdf", sep=""), width=11, height = 8.5)
 
   par(mfrow = c(1, 2))
   x <- selectBrands[order(selectBrands$UNITS) ,]
@@ -224,7 +224,7 @@ if(saveData == T){
 
 
   saveRDS(dta,
-          paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D5.aggregate_allBrands_2010_", gsub('[ ,]', '', Market), ".rds", sep = ""))
+          paste(path.local, "/data_beerConsumptionBrandChoice/D5.aggregate_allBrands_2010_", gsub('[ ,]', '', Market), ".rds", sep = ""))
 
 } else{}
 

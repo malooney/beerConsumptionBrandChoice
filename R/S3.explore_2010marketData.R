@@ -17,7 +17,7 @@ S3.explore_2010marketData <- function(out_algoRunTime = T) {
     path.local <- getwd()
   } else{}
 
-  if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))) {
+  if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))) {
 
     stop("file does not exist in project directory. Run Script 2
              (S2.construct_2010marketData.R) to generate the file called:
@@ -25,7 +25,7 @@ S3.explore_2010marketData <- function(out_algoRunTime = T) {
 
   } else{
 
-    dta <- readRDS(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))
+    dta <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))
 
   }
 
@@ -154,7 +154,7 @@ S3.explore_2010marketData <- function(out_algoRunTime = T) {
   names(explore_2010marketData) <- names(dta)
 
   saveRDS(explore_2010marketData,
-          paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D3.explore_2010marketData.rds", sep = ""))
+          paste(path.local, "/data_beerConsumptionBrandChoice/D3.explore_2010marketData.rds", sep = ""))
 
   endTime <- Sys.time()
 
