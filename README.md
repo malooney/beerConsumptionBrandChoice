@@ -4,7 +4,7 @@
 
 # If you do not already have devtools installed, install it...
 
-install.packages("devtools")
+if (!require("devtools")) install.packages("devtools")
 
 # To install the package:
 
