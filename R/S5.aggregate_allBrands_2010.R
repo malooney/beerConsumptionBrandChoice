@@ -1,7 +1,7 @@
 
 #' @export
 
-S5.aggregate_allBrands_2010 <- function( Market = 'CHICAGO',
+S5.aggregate_allBrands_2010 <- function( market = "all", 
                                          screenPlot = T,
                                          figurePlot = T,
                                          saveData = T,
@@ -43,21 +43,214 @@ if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D4.brand_int
   D4.brand_intersection_across_markets <- read.csv(paste(path.local, "/data_beerConsumptionBrandChoice/D4.brand_intersection_across_markets.csv", sep=""))
 
 }
+  
+  if(market=="all"){
+    
+    if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D4.allBrandsAllMarkets.csv", sep=""))) {
+      
+      stop("file does not exist in project directory. Run Script 1
+           (S4.allBrands_2010analysis.R) to generate the file called:
+           D4.allBrandsAllMarkets.csv")
+      
+    } else{
+      
+      D4.allBrandsAllMarkets <- read.csv(paste(path.local, "/data_beerConsumptionBrandChoice/D4.allBrandsAllMarkets.csv", sep=""))
+      
+    }
+    
+    if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.rds", sep=""))) {
+      
+      stop("file does not exist in project directory. Run Script 1
+         (S1.beer_2010DataCleaning.R) to generate the file called:
+         D1.main_beer_drug_and_groc_4_2010.rds")
+      
+    } else{
+      
+      dta <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.rds", sep=""))
+      
+    }
+    
+    dta <- dta[, c(1, 2, 7:14, 19, 21, 25:27, 30, 36, 53:56, 71:76)]
+    
+# Add volume measures ---------------------------------------------------------
+    
+    oz <- round(data.frame(oz=dta$VOL_EQ.x* 288))
+    total_oz <- (oz* dta$UNITS); colnames(total_oz) <- "total_oz"
+    
+    total_gal <- (0.0078125* total_oz); colnames(total_gal) <- "total_gal"
+    
+    dollarPerGal <- dta$DOLLARS/ total_gal;
+    colnames(dollarPerGal) <- "dollarPerGal"
+    
+    dta_manip <- cbind(dta, oz, total_oz, total_gal,
+                       dollarPerGal)
+    
+    rm(oz, total_gal, total_oz, dollarPerGal, dta)
+    
+# Remove zero data ------------------------------------------------------------
+    dta_manip <- dplyr::filter(dta_manip, L5 !="ALL BRAND")
+    dta_manip <- dplyr::filter(dta_manip, dollarPerGal !="Inf")
+    
+# Explore Brands, Firms, and percenatges of Brands by Firms -------------------
+    uniqueBrands <- dta_manip
+    colnames(uniqueBrands)[20] <- "Brands"
+    colnames(uniqueBrands)[19] <- "Firms"
+    colnames(uniqueBrands)[18] <- "Conglomerates"
+    colnames(dta_manip)[20] <- "Brands"
+    colnames(dta_manip)[19] <- "Firms"
+    colnames(dta_manip)[18] <- "Conglomerates"
+    
+    uniqueBrands_U <- aggregate(UNITS ~ Brands, uniqueBrands, sum)
+    uniqueFirms_U <- aggregate(UNITS ~ Firms, uniqueBrands, sum)
+    uniqueConglomerates_U <- aggregate(UNITS ~ Conglomerates, uniqueBrands, sum)
+    
+    uniqueBrands_Dol <- aggregate(DOLLARS ~ Brands, uniqueBrands, sum)
+    uniqueFirms_Dol <- aggregate(DOLLARS ~ Firms, uniqueBrands, sum)
+    uniqueConglomerates_Dol <- aggregate(DOLLARS ~ Conglomerates, uniqueBrands, sum)
+    
+    uniqueBrands_TotGal <- aggregate(total_gal ~ Brands, uniqueBrands, sum)
+    uniqueFirms_TotGal <- aggregate(total_gal ~ Firms, uniqueBrands, sum)
+    uniqueConglomerates_TotGal <- aggregate(total_gal ~ Conglomerates,
+                                            uniqueBrands, sum)
+    
+    uniqueBrands <- dplyr::full_join(uniqueBrands_U, uniqueBrands_Dol,
+                                     by = "Brands")
+    uniqueFirms <- dplyr::full_join(uniqueFirms_U, uniqueFirms_Dol,
+                                    by = "Firms")
+    uniqueConglomerates <- dplyr::full_join(uniqueConglomerates_U,
+                                            uniqueConglomerates_Dol,
+                                            by = "Conglomerates")
+    
+    uniqueBrands <- dplyr::full_join(uniqueBrands, uniqueBrands_TotGal,
+                                     by = "Brands")
+    uniqueFirms <- dplyr::full_join(uniqueFirms, uniqueFirms_TotGal,
+                                    by = "Firms")
+    uniqueConglomerates <- dplyr::full_join(uniqueConglomerates,
+                                            uniqueConglomerates_TotGal,
+                                            by = "Conglomerates")
+    
+    uniqueBrands <- dplyr::arrange(uniqueBrands, desc(UNITS))
+    uniqueFirms <- dplyr::arrange(uniqueFirms, desc(UNITS))
+    uniqueConglomerates <- dplyr::arrange(uniqueConglomerates, desc(UNITS))
+    
+    
+    
+    
+    uniqueBrands_prct <- data.frame(matrix(nrow=length(uniqueBrands$Brands), 
+                                           ncol=4))
+    
+    uniqueBrands_prct[,1] <- uniqueBrands[,1]
+    
+    for(i in 1:length(uniqueBrands$Brands)){
+      
+    a <- uniqueBrands[i,2:4]
+    b <- colSums(uniqueBrands[,2:4])
+    uniqueBrands_prct[i,2:4] <- a/b
+    i=i+1
+    
+    }
+    names(uniqueBrands_prct) <- names(uniqueBrands)
+    
+    
+    
+    uniqueFirms_prct <- data.frame(matrix(nrow=length(uniqueFirms$Firms), 
+                                           ncol=4))
+    
+    uniqueFirms_prct[,1] <- uniqueFirms[,1]
+    
+    for(i in 1:length(uniqueFirms$Firms)){
+      
+      a <- uniqueFirms[i,2:4]
+      b <- colSums(uniqueFirms[,2:4])
+      uniqueFirms_prct[i,2:4] <- a/b
+      i=i+1
+      
+    }
+    names(uniqueFirms_prct) <- names(uniqueFirms)
+    
+    
+    
+    
+    uniqueConglomerates_prct <- data.frame(matrix(nrow=length(uniqueConglomerates$Conglomerates), 
+                                          ncol=4))
+    
+    uniqueConglomerates_prct[,1] <- uniqueConglomerates[,1]
+    
+    for(i in 1:length(uniqueConglomerates$Conglomerates)){
+      
+      a <- uniqueConglomerates[i,2:4]
+      b <- colSums(uniqueConglomerates[,2:4])
+      uniqueConglomerates_prct[i,2:4] <- a/b
+      i=i+1
+      
+    }
+    names(uniqueConglomerates_prct) <- names(uniqueConglomerates)
+    
+    
+    if(saveData == T){
+      
+      dta <- list(aggregateBrands=NA, aggregateFirms=NA, aggregateConglomerates=NA)
+      
+      dta[[1]] <- list(aggregateDataSummaryBrandsAll=uniqueBrands,
+                       aggregateDataSummaryBrandsAll_prct=uniqueBrands_prct)
+      
+      dta[[2]] <- list(aggregateDataSummaryFirmsALL=uniqueFirms,
+                       aggregateDataSummaryFirmsAll_prct=uniqueFirms_prct)
+      
+      dta[[3]] <- list(aggregateDataSummaryConglomeratesALL=uniqueConglomerates,
+                       aggregateDataSummaryConglomeratesAll_prct=uniqueConglomerates_prct)
+      
+      
+      saveRDS(dta,
+              paste(path.local, "/data_beerConsumptionBrandChoice/D5.aggregate_allBrands_2010_", gsub('[ ,]', '', market), ".rds", sep = ""))
+      
+    } else{}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  } else{}
+  
+  if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))) {
+
+    stop("file does not exist in project directory. Run Script 2
+         (S2.construct_2010marketData.R) to generate the file called:
+         D2.marketData_2010.rds")
+
+  } else{
+
+    D2.marketData_2010 <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))
+
+  }
+    
+    dta <- D2.marketData_2010[[Market]]
 
 
-if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))) {
-
-  stop("file does not exist in project directory. Run Script 2
-       (S2.construct_2010marketData.R) to generate the file called:
-       D2.marketData_2010.rds")
-
-} else{
-
-  D2.marketData_2010 <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))
-
-}
-
-dta <- D2.marketData_2010[[Market]]
 
 # Add volume measures ---------------------------------------------------------
 oz <- round(data.frame(oz=dta$VOL_EQ.x* 288))
@@ -227,6 +420,16 @@ if(saveData == T){
           paste(path.local, "/data_beerConsumptionBrandChoice/D5.aggregate_allBrands_2010_", gsub('[ ,]', '', Market), ".rds", sep = ""))
 
 } else{}
+
+
+
+
+
+
+
+
+
+
 
 endTime <- Sys.time()
 

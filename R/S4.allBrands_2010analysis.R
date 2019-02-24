@@ -33,6 +33,24 @@ S4.allBrands_2010analysis <- function( city= c("CHICAGO",
     dta <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D3.explore_2010marketData.rds", sep=""))
 
   }
+  
+  if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D1.mrkNames_2010.rds", sep=""))) {
+    
+    stop("file does not exist in project directory. Run Script 1
+         (S1.beer_2010DataCleaning.R) to generate the file called:
+         D1.mrkNames_2010.rds")
+    
+  } else{
+    
+    dta1 <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D1.mrkNames_2010.rds", sep=""))
+    
+  }
+  
+  if((city=="all")[1]){
+    
+    city= as.character(dta1$Market_Name)
+    
+  } else{}
 
   allBrands_2010analysis <- data.frame()
 
@@ -46,8 +64,10 @@ S4.allBrands_2010analysis <- function( city= c("CHICAGO",
   } else{
 
     for(i in 1:length(city)){
+      
+      tmp1 <- data.frame(brand=names(tmp[[i]][[5]])[-c(1,2)])
 
-      tmp1 <- data.frame(unlist(tmp[[i]][1], use.names = F))
+      #tmp1 <- data.frame(unlist(tmp[[i]][5], use.names = F))
       allBrands_2010analysis <- rbind(allBrands_2010analysis, tmp1)
       i <- i+1
     }
