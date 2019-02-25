@@ -1,7 +1,7 @@
 
 #' @export
 
-S7.printHierarchyTree <- function(fileName='D6.treeStudy_2010_CHICAGO.rds'){
+S7.printHierarchyTree <- function(fileName='D6.treeAll_2010.rds'){
 
 startTime <- Sys.time()
 
@@ -16,28 +16,17 @@ if(class(path.local) == 'try-error'){
   path.local <- getwd()
 } else{}
 
-if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/", fileName, sep=""))) {
+if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/", fileName, sep=""))) {
 
   stop("file does not exist in project directory. Run Script 6
        (S6.hierarchyTree.R) to generate the file called:
-       D6.treeStudy_2010_CHICAGO.rds")
+       D6.treeStudy_2010_X.rds")
 
 } else{
 
-  readRDS(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/", fileName, sep=""))
+  readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/", fileName, sep=""))
 
 }
-
-
-
-
-
-
-
-
-
-
-
 }
 
 

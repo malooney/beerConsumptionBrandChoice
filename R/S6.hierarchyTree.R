@@ -21,7 +21,7 @@ S6.hierarchyTree <- function(Market = 'CHICAGO',
 
   if(saveAllBrandHierarchy == T){
 
-  if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.feather", sep=""))) {
+  if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.feather", sep=""))) {
 
     stop("file does not exist in project directory. Run Script 2
          (S1.beer_2010DataCleaning.R) to generate the file called:
@@ -29,7 +29,7 @@ S6.hierarchyTree <- function(Market = 'CHICAGO',
 
   } else{
 
-  main_beer_drug_and_groc_4_2010 <- feather::read_feather(paste(path.local,"/data_beerEthnicityConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.feather", sep=""))
+  main_beer_drug_and_groc_4_2010 <- feather::read_feather(paste(path.local,"/data_beerConsumptionBrandChoice/D1.main_beer_drug_and_groc_4_2010.feather", sep=""))
 
   }
 
@@ -54,7 +54,7 @@ S6.hierarchyTree <- function(Market = 'CHICAGO',
 
   if(saveMarketHierarchy == T){
 
-    if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.allBrands_2010analysis_Markets.csv", sep=""))) {
+    if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D4.allBrands_2010analysis_Markets.csv", sep=""))) {
 
       stop("file does not exist in project directory. Run Script 4
            (S4.explore_2010marketData.R) to generate the file called:
@@ -62,11 +62,11 @@ S6.hierarchyTree <- function(Market = 'CHICAGO',
 
     } else{
 
-      D4.allBrands_2010analysis_Markets <- read.csv(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.allBrands_2010analysis_Markets.csv", sep=""))
+      D4.allBrands_2010analysis_Markets <- read.csv(paste(path.local, "/data_beerConsumptionBrandChoice/D4.allBrands_2010analysis_Markets.csv", sep=""))
 
     }
 
-    if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.allBrands_2010analysis_Brands.csv", sep=""))) {
+    if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D4.allBrands_2010analysis_Brands.csv", sep=""))) {
 
       stop("file does not exist in project directory. Run Script 4
            (S4.explore_2010marketData.R) to generate the file called:
@@ -74,11 +74,11 @@ S6.hierarchyTree <- function(Market = 'CHICAGO',
 
     } else{
 
-      D4.allBrands_2010analysis_Brands <- read.csv(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D4.allBrands_2010analysis_Brands.csv", sep=""))
+      D4.allBrands_2010analysis_Brands <- read.csv(paste(path.local, "/data_beerConsumptionBrandChoice/D4.allBrands_2010analysis_Brands.csv", sep=""))
 
     }
 
-    if(!file.exists(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))) {
+    if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))) {
 
       stop("file does not exist in project directory. Run Script 2
            (S2.construct_2010marketData.R) to generate the file called:
@@ -86,7 +86,7 @@ S6.hierarchyTree <- function(Market = 'CHICAGO',
 
     } else{
 
-      D2.marketData_2010 <- readRDS(paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))
+      D2.marketData_2010 <- readRDS(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))
 
     }
 
@@ -131,14 +131,14 @@ S6.hierarchyTree <- function(Market = 'CHICAGO',
   if(saveAllBrandHierarchy == T){
 
     saveRDS(treeAll,
-            paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D6.treeAll_2010", ".rds", sep = ""))
+            paste(path.local, "/data_beerConsumptionBrandChoice/D6.treeAll_2010", ".rds", sep = ""))
 
   } else {}
 
   if(saveMarketHierarchy == T){
 
   saveRDS(treeStudy,
-          paste(path.local, "/data_beerEthnicityConsumptionBrandChoice/D6.treeStudy_2010_", gsub('[ ,]', '', Market), ".rds", sep = ""))
+          paste(path.local, "/data_beerConsumptionBrandChoice/D6.treeStudy_2010_", gsub('[ ,]', '', Market), ".rds", sep = ""))
 
   } else{}
 

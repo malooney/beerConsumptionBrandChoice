@@ -234,7 +234,7 @@ if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D4.brand_int
     
     
     
-  } else{}
+  } else{
   
   if(!file.exists(paste(path.local, "/data_beerConsumptionBrandChoice/D2.marketData_2010.rds", sep=""))) {
 
@@ -421,7 +421,7 @@ if(saveData == T){
 
 } else{}
 
-
+}
 
 
 
