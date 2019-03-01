@@ -4,7 +4,8 @@
 CR_x <- function(print_Table="TRUE",
                  print_Graph="TRUE",
                  outputFormat="text",
-                 Conglom_Firm_Num=8){
+                 Conglom_Firm_Num=8,
+                 report_CR_Num="TRUE"){
   
   n= Conglom_Firm_Num
   
@@ -31,37 +32,65 @@ CR_x <- function(print_Table="TRUE",
     
   }
   
-  topFourConglomerates <- data.frame(D5.aggregate_allBrands_2010_all$aggregateConglomerates$aggregateDataSummaryConglomeratesAll_prct[1:n,])
+  topConglomerates <- data.frame(D5.aggregate_allBrands_2010_all$aggregateConglomerates$aggregateDataSummaryConglomeratesAll_prct[1:n,])
   
-  tmpShares <- colSums(topFourConglomerates[,2:4])
+  topConglomerates_HHI <- data.frame(D5.aggregate_allBrands_2010_all$aggregateConglomerates$aggregateDataSummaryConglomeratesAll_prct[,])
+  
+  HHI_length <- length(topConglomerates_HHI$Conglomerates)
+  
+  tmpShares <- colSums(topConglomerates[,2:4])
+  tmpShares_HHI <- colSums((topConglomerates_HHI[,2:4]^2))
   
 
-  tot <- data.frame(matrix(nrow=2, ncol=4))
+  tot <- data.frame(matrix(nrow=3, ncol=4))
   
   tot[1,1:4] <- rep(NA,4)
   tot[2,1] <- paste(n, "-Firm Concentration Ratio",  sep="")
   tot[2,2:4] <- tmpShares
-  names(tot) <- names(topFourConglomerates)
   
-  topFourConglomerates <- rbind(topFourConglomerates, tot)
+  tot[3,1] <- paste(HHI_length, "-Firm Herfindahl-Hirschman Index",  sep="")
+  tot[3,2:4] <- tmpShares_HHI
   
-  topFourConglomerates[,1] <- gsub("&", "AND", topFourConglomerates$Conglomerates)
+  
+  names(tot) <- names(topConglomerates)
+  
+  topConglomerates <- rbind(topConglomerates, tot)
+  
+  topConglomerates[,1] <- gsub("&", "AND", topConglomerates$Conglomerates)
   
   if(print_Table=="TRUE"){
     
-  stargazer::stargazer(topFourConglomerates, summary=F, header=F, type=outputFormat, rownames = F, notes= paste("Top", n, "Conglomerates/Firms across all markets in 2010."))
+  stargazer::stargazer(topConglomerates, summary=F, header=F, type=outputFormat, rownames = F, notes= paste("Top", n, "Conglomerates/Firms across all markets in 2010."))
     
   }
   
   if(print_Graph=="TRUE"){
     
-    topFourConglomerates$Conglomerates <- factor(topFourConglomerates$Conglomerates, levels = topFourConglomerates$Conglomerates[order(topFourConglomerates$total_gal,decreasing = TRUE)]) 
+    topConglomerates$Conglomerates <- factor(topConglomerates$Conglomerates, levels = topConglomerates$Conglomerates[order(topConglomerates$total_gal,decreasing = TRUE)]) 
     
-    p <- ggplot2::ggplot(data=topFourConglomerates[c(1:n),], ggplot2::aes(x=Conglomerates,  y=total_gal)) + ggplot2::geom_bar(stat="identity") + ggthemes::theme_economist() + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1))
+    p <- ggplot2::ggplot(data=topConglomerates[c(1:n),], ggplot2::aes(x=Conglomerates,  y=total_gal)) + 
+      ggplot2::geom_bar(stat="identity") + 
+      ggthemes::theme_economist() + 
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, size=6)) + 
+      ggplot2::theme(axis.text.y = ggplot2::element_text(angle = 90, hjust = 1, size=6), plot.title = ggplot2::element_text(hjust = 0.5)) + 
+      ggplot2::labs(y = "% by Total Gallons") +
+      ggplot2::ggtitle(paste(n, "-Firm Concentration Ratio",  sep=""))
     
     p
     
-    }
+    return(p)
+    
+  }
+  
+  if(report_CR_Num=="TRUE"){
+    
+    CR_location <- n+2
+    
+    reportCR <- topConglomerates[CR_location,4]
+    
+    return(reportCR)
+    
+  }
   
   
 }
